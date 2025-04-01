@@ -42,3 +42,42 @@ test("Create and Retrieve Booking API Test", async ({ request }) => {
   expect(getResponseBody.firstname).toBe(bookingData.firstname);
 });
 
+
+test('Search for VFX Financial on Firefox', async ({ browser }) => {
+  // Open Firefox
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  // Go to Bing
+  await page.goto('https://www.bing.com');
+
+  // Accept cookies
+  await page.waitForSelector('button:has-text("Accept")');
+  await page.click('button:has-text("Accept")');
+  
+  // Wait for page to fully load after clicking Accept
+  await page.waitForTimeout(1000);
+  
+  // Search for VFX Financial
+  const searchBoxSelector = '#sb_form_q';
+  await page.waitForSelector(searchBoxSelector, { state: 'visible' });
+  await page.click(searchBoxSelector);
+  await page.fill(searchBoxSelector, '');
+  await page.fill(searchBoxSelector, 'VFX Financial');
+  await page.keyboard.press('Enter');
+  
+
+  // Wait for the site to fully load
+  await page.waitForTimeout(3000);
+  
+  // find "VFX Financial" text anywhere on the page which is a h2 heading.
+  const businessTitleExists = await page.evaluate(() => {
+    return Array.from(document.querySelectorAll('h2')).some(h2 => 
+      h2.textContent.trim() === 'VFX Financial'
+    );
+  });
+  
+  // Verify the title exists
+  expect(businessTitleExists).toBeTruthy();
+  console.log('Test passed: Found business information for VFX Financial');
+});
