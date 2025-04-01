@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-
+// PART 1 TEST 
 test("Create and Retrieve Booking API Test", async ({ request }) => {
   // Create the booking data
   const bookingData = {
@@ -8,6 +8,7 @@ test("Create and Retrieve Booking API Test", async ({ request }) => {
     totalprice: 1550,
     depositpaid: true,
     bookingdates: {
+
       checkin: "2018-01-01",
       checkout: "2019-01-01"
     },
@@ -42,7 +43,7 @@ test("Create and Retrieve Booking API Test", async ({ request }) => {
   expect(getResponseBody.firstname).toBe(bookingData.firstname);
 });
 
-
+// PART 2 TEST 
 test('Search for VFX Financial on Firefox', async ({ browser }) => {
   // Open Firefox
   const context = await browser.newContext();
